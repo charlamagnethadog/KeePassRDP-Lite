@@ -18,22 +18,25 @@
  *
  */
 
+using KeePassLib;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
     public partial class KPROptionsForm : Form
     {
         private readonly KprConfig _config;
+        private readonly PwDatabase _database;
         private static int _AltValue = (int)Keys.Alt;
         private static int _CtrlValue = (int)Keys.Control;
         private static int _ShiftValue = (int)Keys.Shift;
 
-        public KPROptionsForm(KprConfig config)
+        public KPROptionsForm(KprConfig config, PwDatabase database)
         {
             _config = config;
+            _database = database;
             InitializeComponent();
         }
 
@@ -71,7 +74,8 @@ namespace KeePassRDP
             var credPickWidth = Convert.ToDecimal(_config.CredPickerWidth);
             var credPickHeight = Convert.ToDecimal(_config.CredPickerHeight);
             var credVaultTtl = Convert.ToDecimal(_config.CredVaultTtl);
-
+            txtCredFolder.Text = _config.CredPickerFolder;
+            //this.cmdSetCredGroup.Click += new System.EventHandler(this.cmdSetCredGroup_Click);
 
             var openRdpShortcut = Convert.ToInt32(_config.ShortcutOpenRdpConnection);
             if (openRdpShortcut - _AltValue > 0) { openRdpShortcut -= _AltValue; chkOpenRdpAlt.Checked = true; }
@@ -152,6 +156,7 @@ namespace KeePassRDP
             _config.MstscUseMultimon = chkMstscUseMultimon.Checked;
             _config.MstscWidth = Convert.ToUInt64(numMstscWidth.Value);
             _config.MstscHeight = Convert.ToUInt64(numMstscHeight.Value);
+            _config.CredPickerFolder = txtCredFolder.Text;
 
             var regExPre = new List<string>();
             foreach (var item in lstRegExPre.Items) { regExPre.Add(item.ToString()); }
@@ -184,6 +189,16 @@ namespace KeePassRDP
             if (chkOpenRdpNoCredAdminCtrl.Checked) { openRdpNoCredAdminShortcut += _CtrlValue; }
             if (chkOpenRdpNoCredAdminShift.Checked) { openRdpNoCredAdminShortcut += _ShiftValue; }
             _config.ShortcutOpenRdpConnectionNoCredAdmin = Convert.ToUInt64(openRdpNoCredAdminShortcut);
+        }
+
+        private void cmdSetCredGroup_Click(object sender, EventArgs e)
+        {
+            FolderPicker _frmPick = new FolderPicker(_config, _database);
+            _frmPick.ShowDialog();
+            if (string.IsNullOrEmpty(_frmPick.CredFolder) == false)
+            {
+                txtCredFolder.Text = _frmPick.CredFolder;
+            }
         }
 
         private void cmdRegExPreAdd_Click(object sender, EventArgs e)

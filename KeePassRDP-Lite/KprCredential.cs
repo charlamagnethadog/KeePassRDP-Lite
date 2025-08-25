@@ -20,7 +20,7 @@
 
 using System;
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
     public class KprCredential : CredentialManagement.Credential
     {

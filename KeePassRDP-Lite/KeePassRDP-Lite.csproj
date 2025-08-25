@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CD6E2D26-2B40-4433-879D-2B07D159356C}</ProjectGuid>
+    <ProjectGuid>{66079703-91AF-4FD6-AE0A-BE6CF3483638}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KeePassRDP</RootNamespace>
-    <AssemblyName>KeePassRDP</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>KeePassRDP-Lite</RootNamespace>
+    <AssemblyName>KeePassRDPLite</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugPLGX|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -37,14 +40,17 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-PLGX|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CredentialManagement">
       <HintPath>ext\CredentialManagement.dll</HintPath>
     </Reference>
-    <Reference Include="KeePass, Version=2.44.0.19625, Culture=neutral, PublicKeyToken=fed2ed7716aecf5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\KeePass\KeePass.exe</HintPath>
+    <Reference Include="KeePass">
+      <HintPath>..\build\exe\KeePass.exe</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -75,7 +81,13 @@
     <Compile Include="CredentialPickerForm.Designer.cs">
       <DependentUpon>CredentialPickerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeePassRDP.cs" />
+    <Compile Include="FolderPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FolderPicker.Designer.cs">
+      <DependentUpon>FolderPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KeePassRDP-Lite.cs" />
     <Compile Include="KprConfig.cs" />
     <Compile Include="KprCredential.cs" />
     <Compile Include="KprEntrySettings.cs" />
@@ -96,6 +108,9 @@
     <EmbeddedResource Include="CredentialPickerForm.resx">
       <DependentUpon>CredentialPickerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FolderPicker.resx">
+      <DependentUpon>FolderPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="KPROptionsForm.resx">
       <DependentUpon>KPROptionsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -114,7 +129,7 @@ goto end
 if not exist "$(SolutionDir)KeePass.exe" goto missingkp
 if exist "$(ProjectDir)obj" rd /S /Q "$(ProjectDir)obj"
 if exist "$(ProjectDir)bin" rd /S /Q "$(ProjectDir)bin"
-"$(SolutionDir)KeePass.exe" --plgx-create "$(SolutionDir)KeePassRDP"
+"$(SolutionDir)KeePass.exe" --plgx-create "$(SolutionDir)KeePassRDP-Lite"
 
 if $(ConfigurationName) == Release goto release
 goto end

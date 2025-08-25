@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeePassRDP", "KeePassRDP\KeePassRDP.csproj", "{CD6E2D26-2B40-4433-879D-2B07D159356C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeePassRDP-Lite", "KeePassRDP-Lite\KeePassRDP-Lite.csproj", "{66079703-91AF-4FD6-AE0A-BE6CF3483638}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,12 +12,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CD6E2D26-2B40-4433-879D-2B07D159356C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD6E2D26-2B40-4433-879D-2B07D159356C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD6E2D26-2B40-4433-879D-2B07D159356C}.DebugPLGX|Any CPU.ActiveCfg = DebugPLGX|Any CPU
-		{CD6E2D26-2B40-4433-879D-2B07D159356C}.DebugPLGX|Any CPU.Build.0 = DebugPLGX|Any CPU
-		{CD6E2D26-2B40-4433-879D-2B07D159356C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD6E2D26-2B40-4433-879D-2B07D159356C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66079703-91AF-4FD6-AE0A-BE6CF3483638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66079703-91AF-4FD6-AE0A-BE6CF3483638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66079703-91AF-4FD6-AE0A-BE6CF3483638}.DebugPLGX|Any CPU.ActiveCfg = DebugPLGX|Any CPU
+		{66079703-91AF-4FD6-AE0A-BE6CF3483638}.DebugPLGX|Any CPU.Build.0 = DebugPLGX|Any CPU
+		{66079703-91AF-4FD6-AE0A-BE6CF3483638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66079703-91AF-4FD6-AE0A-BE6CF3483638}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

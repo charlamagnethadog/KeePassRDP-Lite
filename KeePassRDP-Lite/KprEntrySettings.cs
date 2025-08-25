@@ -3,17 +3,19 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
     public class KprEntrySettings
     {
-        [DefaultValue(false)]
+        //these settings are at the entry/parent level
+
+        //[DefaultValue(false)]
         public bool Ignore { get; set; }
-        [DefaultValue(true)]
+        //[DefaultValue(true)]
         public bool UseCredpicker { get; set; }
-        [DefaultValue(true)]
+        //[DefaultValue(true)]
         public bool CpIncludeDefaultRegex { get; set; }
-        [DefaultValue(true)]
+        //[DefaultValue(true)]
         public bool CpRecurseGroups { get; set; }
 
         public bool ShouldSerializeCpGroupUUIDs() { return CpGroupUUIDs != null && CpGroupUUIDs.Count > 0; }
@@ -42,5 +44,11 @@ namespace KeePassRDP
             var json = JsonConvert.SerializeObject(this, Util.jsonSerializerSettings);
             return new ProtectedString(false, json);
         }
+    }
+
+    //these settings are global
+    public class KprRootEntrySettings
+    {
+
     }
 }

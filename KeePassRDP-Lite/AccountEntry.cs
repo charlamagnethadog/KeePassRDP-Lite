@@ -18,7 +18,7 @@
  *
  */
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
     class AccountEntry
     {

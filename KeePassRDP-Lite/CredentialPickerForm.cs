@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
     public partial class CredentialPickerForm : Form
     {
@@ -138,7 +138,7 @@ namespace KeePassRDP
             }
             catch
             {
-                MessageBox.Show("You have to select an account first", "KeePassRDP");
+                MessageBox.Show("You have to select an account first", "KeePassRDP-Lite");
                 return;
             }
         }

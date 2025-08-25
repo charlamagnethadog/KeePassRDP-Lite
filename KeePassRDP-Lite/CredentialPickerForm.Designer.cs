@@ -1,4 +1,4 @@
-﻿namespace KeePassRDP
+﻿namespace KeePassRDPLite
 {
     partial class CredentialPickerForm
     {
@@ -148,7 +148,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "CredentialPickerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "KeePassRDP Credential picker";
+            this.Text = "KeePassRDP-Lite Credential picker";
             this.Load += new System.EventHandler(this.CredentialPickerForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.olvEntries)).EndInit();
             this.ResumeLayout(false);

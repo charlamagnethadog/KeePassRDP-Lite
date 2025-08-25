@@ -27,15 +27,16 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
-    public sealed class KeePassRDPExt : Plugin
+    public sealed class KeePassRDPLiteExt : Plugin
     {
         private IPluginHost m_host = null;
         private CredentialManager _credManager = null;
         private KprConfig _config = null;
+        //private PwDatabase _database = null;
 
-        public override string UpdateUrl { get { return "https://raw.githubusercontent.com/iSnackyCracky/KeePassRDP/master/KeePassRDP.ver"; } }
+        public override string UpdateUrl { get { return "https://raw.githubusercontent.com/charlamagnethadog/KeePassRDP-Lite/v1.14/KeePassRDP-Lite.ver"; } }
 
         public override bool Initialize(IPluginHost host)
         {
@@ -48,6 +49,8 @@ namespace KeePassRDP
 
             _credManager = new CredentialManager();
             _config = new KprConfig(m_host.CustomConfig);
+            //_database = m_host.Database;
+            
 
             return true;
         }
@@ -79,7 +82,7 @@ namespace KeePassRDP
             if (t == PluginMenuType.Entry)
             {
                 // create entry menu item
-                tsmi = new ToolStripMenuItem("KeePassRDP");
+                tsmi = new ToolStripMenuItem("KeePassRDP-Lite");
 
                 // add the OpenRDP menu entry
                 var tsmiOpenRDP = new ToolStripMenuItem
@@ -147,7 +150,7 @@ namespace KeePassRDP
             return tsmi;
         }
 
-        private void OnKPROptions_Click(object sender, EventArgs e) { UIUtil.ShowDialogAndDestroy(new KPROptionsForm(_config)); }
+        private void OnKPROptions_Click(object sender, EventArgs e) { UIUtil.ShowDialogAndDestroy(new KPROptionsForm(_config, m_host.Database)); }
 
         private void OnOpenRDP_Click(object sender, EventArgs e) { ConnectRDPtoKeePassEntry(false, true); }
 
@@ -171,9 +174,14 @@ namespace KeePassRDP
         private PwEntry SelectCred(PwEntry pe)
         {
             var entrySettings = Util.GetEntrySettings(pe);
+            if (entrySettings == null)
+            {
+                entrySettings = new KprEntrySettings();
+            }
+
 
             PwEntry entry;
-            if ((Util.InRdpSubgroup(pe) || entrySettings.CpGroupUUIDs.Count >= 1) && entrySettings.UseCredpicker)
+            if ((Util.InRdpSubgroup(pe) || entrySettings.CpGroupUUIDs.Count >= 1 || string.IsNullOrEmpty(_config.CredPickerFolder)==false) && entrySettings.UseCredpicker)
             {
                 var credPick = new CredentialPicker(pe, entrySettings, m_host.Database, _config);
                 entry = credPick.GetCredentialEntry();
@@ -195,7 +203,7 @@ namespace KeePassRDP
 
                 if (string.IsNullOrEmpty(URL))
                 {
-                    MessageBox.Show("The selected entry has no URL/Target to connect to.", "KeePassRDP");
+                    MessageBox.Show("The selected entry has no URL/Target to connect to.", "KeePassRDP-Lite");
                     return;
                 }
 
@@ -242,12 +250,12 @@ namespace KeePassRDP
         {
             if (!host.Database.IsOpen)
             {
-                if (showMsg) { MessageBox.Show("You have to open a KeePass database first", "KeePassRDP"); }
+                if (showMsg) { MessageBox.Show("You have to open a KeePass database first", "KeePassRDP-Lite"); }
                 return false;
             }
             if (host.MainWindow.GetSelectedEntry(true, true) == null)
             {
-                if (showMsg) { MessageBox.Show("You have to select an entry first", "KeePassRDP"); }
+                if (showMsg) { MessageBox.Show("You have to select an entry first", "KeePassRDP-Lite"); }
                 return false;
             }
             return true;

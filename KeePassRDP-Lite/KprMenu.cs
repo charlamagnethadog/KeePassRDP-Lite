@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
     public static class KprMenu
     {
@@ -32,7 +32,7 @@ namespace KeePassRDP
                 case MenuItem.IgnoreCredentials:
                     return "Ignore these credentials";
                 case MenuItem.Options:
-                    return "KeePassRDP Options";
+                    return "KeePassRDP-Lite Options";
                 default:
                     return string.Empty;
             }

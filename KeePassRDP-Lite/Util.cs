@@ -21,18 +21,20 @@
 using KeePass.Util.Spr;
 using KeePassLib;
 using KeePassLib.Security;
+using KeePassLib.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
     public static class Util
     {
         public const string IgnoreEntryString = "rdpignore";
         public const string KprCpIgnoreField = IgnoreEntryString;
-        public const string KprEntrySettingsField = "KeePassRDP Settings";
+        public const string KprEntrySettingsField = "KeeRDP Settings";
+        public const string KprEntrySettingsFieldNew = "KeePassRDP-Lite Settings";
         public const string DefaultCredPickRegExPre = "domain|domänen|local|lokaler|windows";
         public const string DefaultCredPickRegExPost = "admin|user|administrator|benutzer|nutzer";
         public const string ToolbarConnectBtnId = "KprConnect";
@@ -41,6 +43,18 @@ namespace KeePassRDP
         {
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
         };
+
+        public static byte[] GetCredentialGroupUUIDFromParentGroup(PwEntry pe)
+        {
+            byte[] credGroupUUID = null;
+            PwGroup pg = pe.ParentGroup;
+            KeePassLib.Collections.StringDictionaryEx groupData = pg.CustomData;
+            if (groupData.Exists("RDPCredentials"))
+            {
+                credGroupUUID = MemUtil.HexStringToByteArray(groupData.Get("RDPCredentials"));
+            }
+            return credGroupUUID;
+        }
 
         /// <summary>
         /// Checks if the ParentGroup of a PwEntry is named "RDP".
@@ -86,6 +100,8 @@ namespace KeePassRDP
             var entrySettings = GetEntrySettings(pe);
             // Does a CustomField "rdpignore" exist and is the value NOT set to "false"?
             if (pe.Strings.Exists(KprCpIgnoreField) && !(pe.Strings.ReadSafe(KprCpIgnoreField).ToLower() == Boolean.FalseString.ToLower())) { return true; }
+            else if (entrySettings == null)
+            { return false; }
             else { return entrySettings.Ignore; }
         }
 
@@ -115,10 +131,26 @@ namespace KeePassRDP
         /// <returns></returns>
         public static KprEntrySettings GetEntrySettings(PwEntry pe)
         {
+            //var entrySettingsStringOld = pe.Strings.ReadSafe(Util.KprEntrySettingsFieldOld);
             var entrySettingsString = pe.Strings.ReadSafe(Util.KprEntrySettingsField);
             var entrySettings = JsonConvert.DeserializeObject<KprEntrySettings>(entrySettingsString, jsonSerializerSettings);
-            if (entrySettings == null) { entrySettings = new KprEntrySettings(); }
-            return entrySettings;
+
+            KeePassLib.Collections.StringDictionaryEx groupData = pe.ParentGroup.CustomData;
+            var entrySettingsString2 = groupData.Get(Util.KprEntrySettingsField);
+            if (entrySettingsString2 == null) entrySettingsString2 = "";
+            var entrySettings2 = JsonConvert.DeserializeObject<KprEntrySettings>(entrySettingsString2, jsonSerializerSettings);
+
+            if (entrySettings != null && entrySettings2 != null)
+            {
+                //combine w/inheritance
+            }
+            else if (entrySettings != null)
+                return entrySettings;
+            else if (entrySettings2 != null)
+                return entrySettings2;
+
+            //if (entrySettings == null) { entrySettings = new KprEntrySettings(); }
+            return null;
         }
 
         /// <summary>

@@ -20,7 +20,7 @@
 
 using KeePass.App.Configuration;
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
     public class KprConfig
     {
@@ -40,6 +40,7 @@ namespace KeePassRDP
         const string CredPickerHeightKey = "KPR_credPickerHeight";
         const string CredPickerRegExPreKey = "KPR_credPickerRegExPrefix";
         const string CredPickerRegExPostKey = "KPR_credPickerRegExPostfix";
+        const string CredPickerFolderKey = "KPR_credPickerFolder";
 
         const string ShortcutOpenRdpConnectionKey = "KPR_shortcutOpenRdpConnection";
         const string ShortcutOpenRdpConnectionAdminKey = "KPR_shortcutOpenRdpConnectionAdmin";
@@ -131,6 +132,12 @@ namespace KeePassRDP
         {
             get { return _config.GetString(CredPickerRegExPostKey, Util.DefaultCredPickRegExPost); }
             set { _config.SetString(CredPickerRegExPostKey, value); }
+        }
+
+        public string CredPickerFolder
+        {
+            get { return _config.GetString(CredPickerFolderKey, ""); }
+            set { _config.SetString(CredPickerFolderKey, value); }
         }
 
         public ulong ShortcutOpenRdpConnection

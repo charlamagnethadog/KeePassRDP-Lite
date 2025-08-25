@@ -25,7 +25,7 @@ using KeePassLib.Utility;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace KeePassRDP
+namespace KeePassRDPLite
 {
     internal class CredentialPicker
     {
@@ -58,14 +58,30 @@ namespace KeePassRDP
 
             // build a list of included group UUIDs (do not add if it's excluded)
             _GroupUUIDs = new List<PwUuid>();
-            foreach (string uuidString in _peSettings.CpGroupUUIDs)
+            if (string.IsNullOrEmpty(_config.CredPickerFolder) == false)
             {
-                byte[] uuidBytes = MemUtil.HexStringToByteArray(uuidString);
+                byte[] uuidBytes = MemUtil.HexStringToByteArray(_config.CredPickerFolder);
+                //_GroupUUIDs.Add(new PwUuid(uuidBytes));
                 if (uuidBytes != null) { AddUuidToList(new PwUuid(uuidBytes), ref _GroupUUIDs); }
             }
+            else
+            {
+                foreach (string uuidString in _peSettings.CpGroupUUIDs)
+                {
+                    byte[] uuidBytes = MemUtil.HexStringToByteArray(uuidString);
+                    if (uuidBytes != null) { AddUuidToList(new PwUuid(uuidBytes), ref _GroupUUIDs); }
+                }
 
-            // include rdp parent group if given and not excluded
-            if (Util.InRdpSubgroup(_pe)) { AddUuidToList(_pe.ParentGroup.ParentGroup.Uuid, ref _GroupUUIDs); }
+                // include rdp parent group if given and not excluded
+                if (Util.InRdpSubgroup(_pe))
+                {
+                    AddUuidToList(_pe.ParentGroup.ParentGroup.Uuid, ref _GroupUUIDs);
+                }
+                else
+                {
+                    byte[] uuidCreds = Util.GetCredentialGroupUUIDFromParentGroup(_pe);
+                }
+            }
 
             if (_peSettings.CpRecurseGroups && _GroupUUIDs.Count >= 1)
             {
