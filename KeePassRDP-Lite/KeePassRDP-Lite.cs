@@ -171,7 +171,7 @@ namespace KeePassRDPLite
             }
         }
 
-        private PwEntry SelectCred(PwEntry pe)
+        private PwEntry SelectCred(PwEntry pe, string defaultUser, bool autoSelect)
         {
             var entrySettings = Util.GetEntrySettings(pe);
             if (entrySettings == null)
@@ -184,7 +184,7 @@ namespace KeePassRDPLite
             if ((Util.InRdpSubgroup(pe) || entrySettings.CpGroupUUIDs.Count >= 1 || string.IsNullOrEmpty(_config.CredPickerFolder)==false) && entrySettings.UseCredpicker)
             {
                 var credPick = new CredentialPicker(pe, entrySettings, m_host.Database, _config);
-                entry = credPick.GetCredentialEntry();
+                entry = credPick.GetCredentialEntry(defaultUser, autoSelect);
             }
             else { entry = pe; }
 
@@ -200,6 +200,7 @@ namespace KeePassRDPLite
                 // get selected entry for connection
                 var connPwEntry = m_host.MainWindow.GetSelectedEntry(true, true);
                 string URL = Util.StripUrl(Util.ResolveReferences(connPwEntry, m_host.Database, PwDefs.UrlField));
+                string userName = connPwEntry.Strings.ReadSafe(PwDefs.UserNameField);
 
                 if (string.IsNullOrEmpty(URL))
                 {
@@ -207,28 +208,41 @@ namespace KeePassRDPLite
                     return;
                 }
 
+                // save state of SHIFT key
+                var shiftKey = ((Control.ModifierKeys & Keys.Shift) != 0);
+
                 var rdpProcess = new Process();
 
                 // if selected, save credentials into the Windows Credential Manager
                 if (tmpUseCreds)
                 {
                     // get credentials for connection
-                    connPwEntry = SelectCred(connPwEntry);
-                    if (connPwEntry == null) { return; }
+                    PwEntry connPwEntry2 = SelectCred(connPwEntry, userName, !shiftKey);
+                    if (connPwEntry2 == null) { return; }
 
-                    // Instantiate a new KprCredential object.
-                    var cred = new KprCredential(
-                        connPwEntry.Strings.ReadSafe(PwDefs.UserNameField),
-                        connPwEntry.Strings.ReadSafe(PwDefs.PasswordField),
-                        _config.CredVaultUseWindows ? "TERMSRV/" + Util.StripUrl(URL, true) : Util.StripUrl(URL, true),
-                        _config.CredVaultUseWindows ? CredentialType.DomainPassword : CredentialType.Generic,
-                        Convert.ToInt32(_config.CredVaultTtl)
-                    );
+                    if (string.IsNullOrEmpty(connPwEntry2.Strings.ReadSafe(PwDefs.UserNameField)))
+                    {
+                        MessageBox.Show("The selected entry has no username.", "KeePassRDP-Lite");
+                        return;
+                    }
 
-                    // Give the KprCredential to the CredentialManager for managing the Windows Vault.
-                    _credManager.Add(cred);
+                    //add credential, if password is set
+                    if (!string.IsNullOrEmpty(connPwEntry2.Strings.ReadSafe(PwDefs.PasswordField)))
+                    {
+                        // Instantiate a new KprCredential object.
+                        var cred = new KprCredential(
+                            connPwEntry2.Strings.ReadSafe(PwDefs.UserNameField),
+                            connPwEntry2.Strings.ReadSafe(PwDefs.PasswordField),
+                            _config.CredVaultUseWindows ? "TERMSRV/" + Util.StripUrl(URL, true) : Util.StripUrl(URL, true),
+                            _config.CredVaultUseWindows ? CredentialType.DomainPassword : CredentialType.Generic,
+                            Convert.ToInt32(_config.CredVaultTtl)
+                        );
 
-                    System.Threading.Thread.Sleep(300);
+                        // Give the KprCredential to the CredentialManager for managing the Windows Vault.
+                        _credManager.Add(cred);
+
+                        System.Threading.Thread.Sleep(300);
+                    }
                 }
 
                 // start RDP / mstsc.exe

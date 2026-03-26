@@ -18,6 +18,9 @@ namespace KeePassRDPLite
         private readonly PwDatabase _database;
         private readonly KprConfig _config;
         private string _credFolder;
+        private string _credFolderName;
+        private PwUuid pwUuid;
+        private TreeNode saveNode;
 
         public string CredFolder
         {
@@ -27,17 +30,36 @@ namespace KeePassRDPLite
             }
         }
 
-        public FolderPicker(/*PwEntry pe, KprEntrySettings peSettings, ,*/ KprConfig config, PwDatabase database)
+        public string CredFolderName
+        {
+            get
+            {
+                return (_credFolderName);
+            }
+        }
+
+
+        public FolderPicker(KprConfig config, PwDatabase database)
         {
             _credFolder = "";
-            //_pe = pe;
-            //_peSettings = peSettings;
+            _credFolderName = "";
             _database = database;
             _config = config;
+            pwUuid=null;
+            saveNode = null;
             InitializeComponent();
 
             this.Load += FolderPicker_Load;
             this.btnSelect.Click += Select_Click;
+
+            if (config.CredPickerFolder.Length > 0)
+            {
+                byte[] uuidBytes = MemUtil.HexStringToByteArray(config.CredPickerFolder);
+                if (uuidBytes != null)
+                {
+                    pwUuid = new PwUuid(uuidBytes);
+                }
+            }
         }
 
         private void FolderPicker_Load(object sender, System.EventArgs e)
@@ -52,6 +74,10 @@ namespace KeePassRDPLite
             TreeNode _node = treeFolders.Nodes.Add(_root.Uuid.ToHexString(), _root.Name);
 
             RecurseGroups(_root, _node);
+            if (saveNode != null)
+            {
+                treeFolders.SelectedNode = saveNode;
+            }
         }
 
         private void RecurseGroups(PwGroup _group, TreeNode _node)
@@ -59,6 +85,11 @@ namespace KeePassRDPLite
             foreach (PwGroup grp in _group.Groups)
             {
                 TreeNode _newNode = _node.Nodes.Add(grp.Uuid.ToHexString(), grp.Name);
+                if (pwUuid != null && saveNode == null)
+                {
+                    if (pwUuid.Equals(grp.Uuid))
+                        saveNode = _newNode;
+                }
                 RecurseGroups(grp, _newNode);
             }
             _node.Expand();
@@ -72,6 +103,7 @@ namespace KeePassRDPLite
                 //MessageBox.Show(_node.Name);
                 //byte[] uuidBytes = MemUtil.HexStringToByteArray(_node.Name);
                 _credFolder = _node.Name;
+                _credFolderName = _node.Text;
             }
             this.Close();
         }

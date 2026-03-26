@@ -9,13 +9,13 @@ namespace KeePassRDPLite
     {
         //these settings are at the entry/parent level
 
-        //[DefaultValue(false)]
+        [DefaultValue(false)]
         public bool Ignore { get; set; }
-        //[DefaultValue(true)]
+        [DefaultValue(true)]
         public bool UseCredpicker { get; set; }
-        //[DefaultValue(true)]
+        [DefaultValue(true)]
         public bool CpIncludeDefaultRegex { get; set; }
-        //[DefaultValue(true)]
+        [DefaultValue(true)]
         public bool CpRecurseGroups { get; set; }
 
         public bool ShouldSerializeCpGroupUUIDs() { return CpGroupUUIDs != null && CpGroupUUIDs.Count > 0; }
@@ -51,4 +51,15 @@ namespace KeePassRDPLite
     {
 
     }
+
+    //public static class KprEntryExtensions
+    //{
+    //    public static string AView(this KeePassLib.PwEntry keePassEntry)
+    //    {
+    //        var text = keePassEntry.Strings.ReadSafe(PwDefs.TitleField);
+    //        var text2 = keePassEntry.Uuid.ToHexString();
+
+    //        return text;
+    //    }
+    //}
 }

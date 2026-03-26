@@ -31,16 +31,21 @@ namespace KeePassRDPLite
     {
         private readonly KprConfig _config;
         private readonly PwDatabase _db;
+        private bool showExcluded;
 
         public CredentialPickerForm(KprConfig config, PwDatabase db)
         {
             _config = config;
             _db = db;
             InitializeComponent();
+            showExcluded = false;
+            this.Tag = this.Text;
         }
 
         // PwObjectList with all matching entries
         public PwObjectList<PwEntry> RdpAccountEntries { get; set; }
+        public PwObjectList<PwEntry> RdpExcludedEntries { get; set; }
+        public string DefaultUser;
         // PwEntry that contains the URL for the connection
         public PwEntry ConnPE { get; set; }
         // new PwEntry created for the connection (URL from connPE, username and password from selected rdpAccountEntry)
@@ -62,6 +67,7 @@ namespace KeePassRDPLite
             // create new list with AccountEntry-objects to show them in ObjectListView-element
             List<AccountEntry> listAccounts = new List<AccountEntry>();
 
+            int defaultItem = -1;
             foreach (PwEntry account in RdpAccountEntries)
             {
                 // get title, username, notes and a UUID-hash from the Account...
@@ -85,11 +91,67 @@ namespace KeePassRDPLite
                 // ...and add as new AccountEntry to the list
                 AccountEntry accEntry = new AccountEntry(path, title, username, notes, uidhash);
                 listAccounts.Add(accEntry);
+                if (DefaultUser.Length > 0 && defaultItem == 0)
+                {
+                    if (string.Compare(username, DefaultUser, true) == 0)
+                        defaultItem = listAccounts.Count - 1;
+                    else if (string.Compare(title, DefaultUser, true) == 0)
+                        defaultItem = listAccounts.Count - 1;
+                }
             }
-            // fill the ObjectListView-element with objects from the AccountEntry-list
-            olvEntries.SetObjects(listAccounts);
-                // select the first entry in the ObjectListView
-            olvEntries.Items[0].Selected = true;
+            if (showExcluded)
+            {
+                foreach (PwEntry account in RdpExcludedEntries)
+                {
+                    // get title, username, notes and a UUID-hash from the Account...
+                    int uidhash = account.Uuid.GetHashCode();
+
+                    string path, title, username, notes;
+                    path = account.ParentGroup.GetFullPath("\\", false);
+                    if (_config.KeePassShowResolvedReferences)
+                    {
+                        title = Util.ResolveReferences(account, _db, PwDefs.TitleField);
+                        username = Util.ResolveReferences(account, _db, PwDefs.UserNameField);
+                        notes = Util.ResolveReferences(account, _db, PwDefs.NotesField);
+                    }
+                    else
+                    {
+                        title = account.Strings.ReadSafe(PwDefs.TitleField);
+                        username = account.Strings.ReadSafe(PwDefs.UserNameField);
+                        notes = account.Strings.ReadSafe(PwDefs.NotesField);
+                    }
+
+                    // ...and add as new AccountEntry to the list
+                    AccountEntry accEntry = new AccountEntry(path, title, username, notes, uidhash);
+                    listAccounts.Add(accEntry);
+                    if (DefaultUser.Length > 0 && defaultItem == 0)
+                    {
+                        if (string.Compare(username, DefaultUser, true) == 0)
+                            defaultItem = listAccounts.Count - 1;
+                        else if (string.Compare(title, DefaultUser, true) == 0)
+                            defaultItem = listAccounts.Count - 1;
+                    }
+                }
+            }
+            if (defaultItem == -1)
+            {
+                // fill the ObjectListView-element with objects from the AccountEntry-list
+                olvEntries.SetObjects(listAccounts);
+                // select the first entry in the ObjectListView (so user can just press enter for a quick connection)
+                olvEntries.Items[0].Selected = true;
+            }
+            else
+            {
+                //disable sorting so that default item can be selected (in same position as listAccounts)
+                olvEntries.Sorting = SortOrder.None;
+                // fill the ObjectListView-element with objects from the AccountEntry-list
+                olvEntries.SetObjects(listAccounts);
+                // select the default user name entry (so user can just press enter for a quick connection)
+                olvEntries.Items[defaultItem].Selected = true;
+                //enable sorting with the default item selected
+                olvEntries.Sorting = SortOrder.Ascending;
+            }
+            Text = string.Format("{0} ({1})", this.Tag, olvEntries.Items.Count);
         }
 
         private void CmdCancel_Click(object sender, EventArgs e)
@@ -141,6 +203,14 @@ namespace KeePassRDPLite
                 MessageBox.Show("You have to select an account first", "KeePassRDP-Lite");
                 return;
             }
+        }
+
+        private void cmdShowExcluded_Click(object sender, EventArgs e)
+        {
+            showExcluded = !showExcluded;
+            cmdShowExcluded.Text = showExcluded ? "Hide Excluded" : "Show Excluded";
+            LoadListEntries();
+            olvEntries.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
     }
 }

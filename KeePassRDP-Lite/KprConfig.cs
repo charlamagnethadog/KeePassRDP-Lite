@@ -41,6 +41,7 @@ namespace KeePassRDPLite
         const string CredPickerRegExPreKey = "KPR_credPickerRegExPrefix";
         const string CredPickerRegExPostKey = "KPR_credPickerRegExPostfix";
         const string CredPickerFolderKey = "KPR_credPickerFolder";
+        const string CredPickerSubFoldersKey = "KPR_credSubFolders";
 
         const string ShortcutOpenRdpConnectionKey = "KPR_shortcutOpenRdpConnection";
         const string ShortcutOpenRdpConnectionAdminKey = "KPR_shortcutOpenRdpConnectionAdmin";
@@ -140,6 +141,12 @@ namespace KeePassRDPLite
             set { _config.SetString(CredPickerFolderKey, value); }
         }
 
+        public bool CredPickerSubFolders
+        {
+            get { return _config.GetBool(CredPickerSubFoldersKey, false); }
+            set { _config.SetBool(CredPickerSubFoldersKey, value); }
+        }
+        
         public ulong ShortcutOpenRdpConnection
         {
             get { return _config.GetULong(ShortcutOpenRdpConnectionKey, KprMenu.DefaultOpenRdpConnectionShortcut); }

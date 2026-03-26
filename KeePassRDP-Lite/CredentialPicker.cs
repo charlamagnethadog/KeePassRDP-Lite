@@ -44,7 +44,7 @@ namespace KeePassRDPLite
             _config = config;
         }
 
-        public PwEntry GetCredentialEntry()
+        public PwEntry GetCredentialEntry(string defaultUser, bool autoSelect)
         {
             PwEntry pe = null;
 
@@ -62,7 +62,7 @@ namespace KeePassRDPLite
             {
                 byte[] uuidBytes = MemUtil.HexStringToByteArray(_config.CredPickerFolder);
                 //_GroupUUIDs.Add(new PwUuid(uuidBytes));
-                if (uuidBytes != null) { AddUuidToList(new PwUuid(uuidBytes), ref _GroupUUIDs); 
+                if (uuidBytes != null) { AddUuidToList(new PwUuid(uuidBytes), ref _GroupUUIDs); }
             }
             else
             {
@@ -86,12 +86,20 @@ namespace KeePassRDPLite
             if (_peSettings.CpRecurseGroups && _GroupUUIDs.Count >= 1)
             {
                 var recurseGroupUUIDs = new List<PwUuid>();
+                var recurseExcludeUUIDs = new List<PwUuid>();
                 foreach (PwUuid uuid in _GroupUUIDs)
                 {
                     var childs = _database.RootGroup.FindGroup(uuid, true).GetGroups(true);
-                    foreach (PwGroup child in childs) { AddUuidToList(child.Uuid, ref recurseGroupUUIDs); }
+                    foreach (PwGroup child in childs) 
+                    {
+                        if (_config.CredPickerSubFolders)
+                            AddUuidToList(child.Uuid, ref recurseGroupUUIDs);
+                        else
+                            AddUuidToList(child.Uuid, ref recurseExcludeUUIDs);
+                    }
                 }
                 _GroupUUIDs.AddRange(recurseGroupUUIDs);
+                _ExcludedGroupUUIDs.AddRange(recurseExcludeUUIDs);
             }
 
             if (_GroupUUIDs.Count >= 1)
@@ -103,13 +111,34 @@ namespace KeePassRDPLite
                     accountEntries.Add(GetRdpAccountEntries(group));
                 }
 
+                var excludeEntries = new PwObjectList<PwEntry>();
+                foreach (PwUuid uuid in _ExcludedGroupUUIDs)
+                {
+                    var group = _database.RootGroup.FindGroup(uuid, true);
+                    excludeEntries.Add(GetRdpAccountEntries(group));
+                }
+
                 if (accountEntries.UCount >= 1)
                 {
+                    //if autoSelect, return the first entry that matches username
+                    if (autoSelect && defaultUser.Length > 0)
+                    {
+                        foreach (var accountEntry in accountEntries)
+                        {
+                            if (string.Compare(accountEntry.Strings.ReadSafe(PwDefs.UserNameField), defaultUser, true) == 0)
+                            {
+                                return accountEntry;
+                            }
+                        }
+                    }
+
                     // create a selection dialog with the matching entries
                     var frmCredPick = new CredentialPickerForm(_config, _database)
                     {
                         RdpAccountEntries = accountEntries,
-                        ConnPE = pe
+                        RdpExcludedEntries = excludeEntries,
+                        ConnPE = pe,
+                        DefaultUser = defaultUser
                     };
 
                     // show the dialog and get the result
@@ -157,7 +186,11 @@ namespace KeePassRDPLite
                 string title = pe.Strings.ReadSafe(PwDefs.TitleField);
                 bool ignore = Util.IsEntryIgnored(pe);
 
-                if (!ignore && Regex.IsMatch(title, re, RegexOptions.IgnoreCase)) { rdpAccountEntries.Add(pe); }
+                if (!ignore && Regex.IsMatch(title, re, RegexOptions.IgnoreCase)) 
+                {
+                    if (!(pe.Expires && pe.ExpiryTime < System.DateTime.Now))
+                        rdpAccountEntries.Add(pe); 
+                }
             }
             return rdpAccountEntries;
         }

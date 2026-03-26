@@ -160,6 +160,10 @@ namespace KeePassRDPLite
         public static void ToggleEntryIgnored(PwEntry pe)
         {
             var entrySettings = GetEntrySettings(pe);
+            if (entrySettings == null)
+            {
+                entrySettings = new KprEntrySettings();
+            }
 
             // Does a CustomField "rdpignore" exist?
             if (pe.Strings.Exists(KprCpIgnoreField))
@@ -179,7 +183,11 @@ namespace KeePassRDPLite
             // Else the entry currently has no "rdpignore-flags" set, so just toggle the entrySetting
             else { entrySettings.Ignore = !entrySettings.Ignore; }
 
-            pe.Strings.Set(KprEntrySettingsField, entrySettings.ToProtectedJsonString());
+            var protStrings = entrySettings.ToProtectedJsonString();
+            if (protStrings.Length > 2)
+                pe.Strings.Set(KprEntrySettingsField, protStrings);
+            else
+                pe.Strings.Remove(KprEntrySettingsField);
             pe.Touch(true, false);
         }
 

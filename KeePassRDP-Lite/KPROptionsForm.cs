@@ -19,6 +19,7 @@
  */
 
 using KeePassLib;
+using KeePassLib.Utility;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -74,8 +75,20 @@ namespace KeePassRDPLite
             var credPickWidth = Convert.ToDecimal(_config.CredPickerWidth);
             var credPickHeight = Convert.ToDecimal(_config.CredPickerHeight);
             var credVaultTtl = Convert.ToDecimal(_config.CredVaultTtl);
-            txtCredFolder.Text = _config.CredPickerFolder;
+            txtCredUUID.Text = _config.CredPickerFolder;
+            chkCredSubfolders.Checked = _config.CredPickerSubFolders;
             //this.cmdSetCredGroup.Click += new System.EventHandler(this.cmdSetCredGroup_Click);
+
+            byte[] uuidBytes = MemUtil.HexStringToByteArray(txtCredUUID.Text);
+            var group = _database.RootGroup.FindGroup(new PwUuid(uuidBytes), true);
+            if (group != null)
+            {
+                txtCredFolder.Text = group.Name;
+            }
+            else
+            {
+                txtCredFolder.Text = "(not set)";
+            }
 
             var openRdpShortcut = Convert.ToInt32(_config.ShortcutOpenRdpConnection);
             if (openRdpShortcut - _AltValue > 0) { openRdpShortcut -= _AltValue; chkOpenRdpAlt.Checked = true; }
@@ -156,7 +169,8 @@ namespace KeePassRDPLite
             _config.MstscUseMultimon = chkMstscUseMultimon.Checked;
             _config.MstscWidth = Convert.ToUInt64(numMstscWidth.Value);
             _config.MstscHeight = Convert.ToUInt64(numMstscHeight.Value);
-            _config.CredPickerFolder = txtCredFolder.Text;
+            _config.CredPickerFolder = txtCredUUID.Text;
+            _config.CredPickerSubFolders = chkCredSubfolders.Checked;
 
             var regExPre = new List<string>();
             foreach (var item in lstRegExPre.Items) { regExPre.Add(item.ToString()); }
@@ -197,7 +211,8 @@ namespace KeePassRDPLite
             _frmPick.ShowDialog();
             if (string.IsNullOrEmpty(_frmPick.CredFolder) == false)
             {
-                txtCredFolder.Text = _frmPick.CredFolder;
+                txtCredUUID.Text = _frmPick.CredFolder;
+                txtCredFolder.Text = _frmPick.CredFolderName;
             }
         }
 

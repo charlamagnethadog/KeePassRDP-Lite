@@ -48,6 +48,7 @@
             this.numCredPickWidth = new System.Windows.Forms.NumericUpDown();
             this.chkKeepassShowResolvedReferences = new System.Windows.Forms.CheckBox();
             this.ttGeneralOptions = new System.Windows.Forms.ToolTip(this.components);
+            this.chkCredSubfolders = new System.Windows.Forms.CheckBox();
             this.lblCredVaultTtl = new System.Windows.Forms.Label();
             this.numCredVaultTtl = new System.Windows.Forms.NumericUpDown();
             this.chkCredVaultUseWindows = new System.Windows.Forms.CheckBox();
@@ -82,6 +83,8 @@
             this.label12 = new System.Windows.Forms.Label();
             this.grpCredentialOptions = new System.Windows.Forms.GroupBox();
             this.tabCredPicker = new System.Windows.Forms.TabPage();
+            this.txtCredFolder = new System.Windows.Forms.TextBox();
+            this.cmdSetCredGroup = new System.Windows.Forms.Button();
             this.cmdRegExPostReset = new System.Windows.Forms.Button();
             this.cmdRegExPreReset = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -95,8 +98,7 @@
             this.txtRegExPre = new System.Windows.Forms.TextBox();
             this.lstRegExPre = new System.Windows.Forms.ListBox();
             this.tabMstsc = new System.Windows.Forms.TabPage();
-            this.txtCredFolder = new System.Windows.Forms.TextBox();
-            this.cmdSetCredGroup = new System.Windows.Forms.Button();
+            this.txtCredUUID = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numMstscHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMstscWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCredPickHeight)).BeginInit();
@@ -148,7 +150,7 @@
             // numMstscHeight
             // 
             this.numMstscHeight.Location = new System.Drawing.Point(70, 113);
-            this.numMstscHeight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numMstscHeight.Margin = new System.Windows.Forms.Padding(2);
             this.numMstscHeight.Name = "numMstscHeight";
             this.numMstscHeight.Size = new System.Drawing.Size(128, 20);
             this.numMstscHeight.TabIndex = 7;
@@ -168,7 +170,7 @@
             // numMstscWidth
             // 
             this.numMstscWidth.Location = new System.Drawing.Point(70, 89);
-            this.numMstscWidth.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numMstscWidth.Margin = new System.Windows.Forms.Padding(2);
             this.numMstscWidth.Name = "numMstscWidth";
             this.numMstscWidth.Size = new System.Drawing.Size(128, 20);
             this.numMstscWidth.TabIndex = 5;
@@ -178,7 +180,7 @@
             // 
             this.chkMstscUseMultimon.AutoSize = true;
             this.chkMstscUseMultimon.Location = new System.Drawing.Point(5, 68);
-            this.chkMstscUseMultimon.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkMstscUseMultimon.Margin = new System.Windows.Forms.Padding(2);
             this.chkMstscUseMultimon.Name = "chkMstscUseMultimon";
             this.chkMstscUseMultimon.Size = new System.Drawing.Size(155, 17);
             this.chkMstscUseMultimon.TabIndex = 3;
@@ -192,7 +194,7 @@
             // 
             this.chkMstscUseSpan.AutoSize = true;
             this.chkMstscUseSpan.Location = new System.Drawing.Point(5, 47);
-            this.chkMstscUseSpan.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkMstscUseSpan.Margin = new System.Windows.Forms.Padding(2);
             this.chkMstscUseSpan.Name = "chkMstscUseSpan";
             this.chkMstscUseSpan.Size = new System.Drawing.Size(128, 17);
             this.chkMstscUseSpan.TabIndex = 2;
@@ -205,7 +207,7 @@
             // 
             this.chkMstscUseAdmin.AutoSize = true;
             this.chkMstscUseAdmin.Location = new System.Drawing.Point(5, 26);
-            this.chkMstscUseAdmin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkMstscUseAdmin.Margin = new System.Windows.Forms.Padding(2);
             this.chkMstscUseAdmin.Name = "chkMstscUseAdmin";
             this.chkMstscUseAdmin.Size = new System.Drawing.Size(118, 17);
             this.chkMstscUseAdmin.TabIndex = 1;
@@ -217,7 +219,7 @@
             // 
             this.chkMstscUseFullscreen.AutoSize = true;
             this.chkMstscUseFullscreen.Location = new System.Drawing.Point(5, 5);
-            this.chkMstscUseFullscreen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkMstscUseFullscreen.Margin = new System.Windows.Forms.Padding(2);
             this.chkMstscUseFullscreen.Name = "chkMstscUseFullscreen";
             this.chkMstscUseFullscreen.Size = new System.Drawing.Size(110, 17);
             this.chkMstscUseFullscreen.TabIndex = 0;
@@ -237,7 +239,7 @@
             // 
             this.chkCredPickRememberSize.AutoSize = true;
             this.chkCredPickRememberSize.Location = new System.Drawing.Point(5, 26);
-            this.chkCredPickRememberSize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkCredPickRememberSize.Margin = new System.Windows.Forms.Padding(2);
             this.chkCredPickRememberSize.Name = "chkCredPickRememberSize";
             this.chkCredPickRememberSize.Size = new System.Drawing.Size(153, 17);
             this.chkCredPickRememberSize.TabIndex = 1;
@@ -259,7 +261,7 @@
             // numCredPickHeight
             // 
             this.numCredPickHeight.Location = new System.Drawing.Point(103, 71);
-            this.numCredPickHeight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numCredPickHeight.Margin = new System.Windows.Forms.Padding(2);
             this.numCredPickHeight.Name = "numCredPickHeight";
             this.numCredPickHeight.Size = new System.Drawing.Size(91, 20);
             this.numCredPickHeight.TabIndex = 5;
@@ -277,7 +279,7 @@
             // numCredPickWidth
             // 
             this.numCredPickWidth.Location = new System.Drawing.Point(103, 47);
-            this.numCredPickWidth.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numCredPickWidth.Margin = new System.Windows.Forms.Padding(2);
             this.numCredPickWidth.Name = "numCredPickWidth";
             this.numCredPickWidth.Size = new System.Drawing.Size(91, 20);
             this.numCredPickWidth.TabIndex = 3;
@@ -286,7 +288,7 @@
             // 
             this.chkKeepassShowResolvedReferences.AutoSize = true;
             this.chkKeepassShowResolvedReferences.Location = new System.Drawing.Point(5, 5);
-            this.chkKeepassShowResolvedReferences.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkKeepassShowResolvedReferences.Margin = new System.Windows.Forms.Padding(2);
             this.chkKeepassShowResolvedReferences.Name = "chkKeepassShowResolvedReferences";
             this.chkKeepassShowResolvedReferences.Size = new System.Drawing.Size(154, 17);
             this.chkKeepassShowResolvedReferences.TabIndex = 0;
@@ -302,6 +304,19 @@
             this.ttGeneralOptions.ReshowDelay = 100;
             this.ttGeneralOptions.ToolTipTitle = "General options";
             // 
+            // chkCredSubfolders
+            // 
+            this.chkCredSubfolders.AutoSize = true;
+            this.chkCredSubfolders.Location = new System.Drawing.Point(212, 24);
+            this.chkCredSubfolders.Margin = new System.Windows.Forms.Padding(2);
+            this.chkCredSubfolders.Name = "chkCredSubfolders";
+            this.chkCredSubfolders.Size = new System.Drawing.Size(136, 17);
+            this.chkCredSubfolders.TabIndex = 22;
+            this.chkCredSubfolders.Text = "Include cred subfolders";
+            this.ttGeneralOptions.SetToolTip(this.chkCredSubfolders, "Always remembers the last CredPicker window size.\r\nIf you can alwas set the size " +
+        "using the values below.");
+            this.chkCredSubfolders.UseVisualStyleBackColor = true;
+            // 
             // lblCredVaultTtl
             // 
             this.lblCredVaultTtl.AutoSize = true;
@@ -316,7 +331,7 @@
             // numCredVaultTtl
             // 
             this.numCredVaultTtl.Location = new System.Drawing.Point(88, 37);
-            this.numCredVaultTtl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numCredVaultTtl.Margin = new System.Windows.Forms.Padding(2);
             this.numCredVaultTtl.Maximum = new decimal(new int[] {
             86400,
             0,
@@ -341,7 +356,7 @@
             // 
             this.chkCredVaultUseWindows.AutoSize = true;
             this.chkCredVaultUseWindows.Location = new System.Drawing.Point(4, 16);
-            this.chkCredVaultUseWindows.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkCredVaultUseWindows.Margin = new System.Windows.Forms.Padding(2);
             this.chkCredVaultUseWindows.Name = "chkCredVaultUseWindows";
             this.chkCredVaultUseWindows.Size = new System.Drawing.Size(166, 17);
             this.chkCredVaultUseWindows.TabIndex = 0;
@@ -376,7 +391,7 @@
             this.tabGeneral.Controls.Add(this.grpCredentialOptions);
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
-            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
             this.tabGeneral.Size = new System.Drawing.Size(348, 251);
             this.tabGeneral.TabIndex = 2;
             this.tabGeneral.Text = "General options";
@@ -389,9 +404,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.Location = new System.Drawing.Point(5, 74);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(341, 151);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
@@ -431,7 +446,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label12, 4, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 15);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -458,7 +473,7 @@
             this.chkOpenRdpNoCredAdminCtrl.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpNoCredAdminCtrl.AutoSize = true;
             this.chkOpenRdpNoCredAdminCtrl.Location = new System.Drawing.Point(174, 111);
-            this.chkOpenRdpNoCredAdminCtrl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpNoCredAdminCtrl.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpNoCredAdminCtrl.Name = "chkOpenRdpNoCredAdminCtrl";
             this.chkOpenRdpNoCredAdminCtrl.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpNoCredAdminCtrl.TabIndex = 20;
@@ -469,7 +484,7 @@
             this.chkOpenRdpNoCredAdminAlt.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpNoCredAdminAlt.AutoSize = true;
             this.chkOpenRdpNoCredAdminAlt.Location = new System.Drawing.Point(207, 111);
-            this.chkOpenRdpNoCredAdminAlt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpNoCredAdminAlt.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpNoCredAdminAlt.Name = "chkOpenRdpNoCredAdminAlt";
             this.chkOpenRdpNoCredAdminAlt.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpNoCredAdminAlt.TabIndex = 21;
@@ -480,7 +495,7 @@
             this.chkOpenRdpNoCredAdminShift.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpNoCredAdminShift.AutoSize = true;
             this.chkOpenRdpNoCredAdminShift.Location = new System.Drawing.Point(240, 111);
-            this.chkOpenRdpNoCredAdminShift.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpNoCredAdminShift.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpNoCredAdminShift.Name = "chkOpenRdpNoCredAdminShift";
             this.chkOpenRdpNoCredAdminShift.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpNoCredAdminShift.TabIndex = 22;
@@ -490,7 +505,7 @@
             // 
             this.txtOpenRdpNoCredAdminKey.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtOpenRdpNoCredAdminKey.Location = new System.Drawing.Point(266, 108);
-            this.txtOpenRdpNoCredAdminKey.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtOpenRdpNoCredAdminKey.Margin = new System.Windows.Forms.Padding(2);
             this.txtOpenRdpNoCredAdminKey.Name = "txtOpenRdpNoCredAdminKey";
             this.txtOpenRdpNoCredAdminKey.Size = new System.Drawing.Size(68, 20);
             this.txtOpenRdpNoCredAdminKey.TabIndex = 23;
@@ -499,7 +514,7 @@
             // 
             this.txtOpenRdpNoCredKey.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtOpenRdpNoCredKey.Location = new System.Drawing.Point(266, 78);
-            this.txtOpenRdpNoCredKey.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtOpenRdpNoCredKey.Margin = new System.Windows.Forms.Padding(2);
             this.txtOpenRdpNoCredKey.Name = "txtOpenRdpNoCredKey";
             this.txtOpenRdpNoCredKey.Size = new System.Drawing.Size(68, 20);
             this.txtOpenRdpNoCredKey.TabIndex = 18;
@@ -508,7 +523,7 @@
             // 
             this.txtOpenRdpAdminKey.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtOpenRdpAdminKey.Location = new System.Drawing.Point(266, 48);
-            this.txtOpenRdpAdminKey.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtOpenRdpAdminKey.Margin = new System.Windows.Forms.Padding(2);
             this.txtOpenRdpAdminKey.Name = "txtOpenRdpAdminKey";
             this.txtOpenRdpAdminKey.Size = new System.Drawing.Size(68, 20);
             this.txtOpenRdpAdminKey.TabIndex = 13;
@@ -517,7 +532,7 @@
             // 
             this.txtOpenRdpKey.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtOpenRdpKey.Location = new System.Drawing.Point(266, 18);
-            this.txtOpenRdpKey.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtOpenRdpKey.Margin = new System.Windows.Forms.Padding(2);
             this.txtOpenRdpKey.Name = "txtOpenRdpKey";
             this.txtOpenRdpKey.Size = new System.Drawing.Size(68, 20);
             this.txtOpenRdpKey.TabIndex = 8;
@@ -527,7 +542,7 @@
             this.chkOpenRdpNoCredShift.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpNoCredShift.AutoSize = true;
             this.chkOpenRdpNoCredShift.Location = new System.Drawing.Point(240, 81);
-            this.chkOpenRdpNoCredShift.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpNoCredShift.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpNoCredShift.Name = "chkOpenRdpNoCredShift";
             this.chkOpenRdpNoCredShift.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpNoCredShift.TabIndex = 17;
@@ -538,7 +553,7 @@
             this.chkOpenRdpNoCredAlt.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpNoCredAlt.AutoSize = true;
             this.chkOpenRdpNoCredAlt.Location = new System.Drawing.Point(207, 81);
-            this.chkOpenRdpNoCredAlt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpNoCredAlt.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpNoCredAlt.Name = "chkOpenRdpNoCredAlt";
             this.chkOpenRdpNoCredAlt.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpNoCredAlt.TabIndex = 16;
@@ -549,7 +564,7 @@
             this.chkOpenRdpNoCredCtrl.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpNoCredCtrl.AutoSize = true;
             this.chkOpenRdpNoCredCtrl.Location = new System.Drawing.Point(174, 81);
-            this.chkOpenRdpNoCredCtrl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpNoCredCtrl.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpNoCredCtrl.Name = "chkOpenRdpNoCredCtrl";
             this.chkOpenRdpNoCredCtrl.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpNoCredCtrl.TabIndex = 15;
@@ -582,7 +597,7 @@
             this.chkOpenRdpAdminCtrl.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpAdminCtrl.AutoSize = true;
             this.chkOpenRdpAdminCtrl.Location = new System.Drawing.Point(174, 51);
-            this.chkOpenRdpAdminCtrl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpAdminCtrl.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpAdminCtrl.Name = "chkOpenRdpAdminCtrl";
             this.chkOpenRdpAdminCtrl.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpAdminCtrl.TabIndex = 10;
@@ -593,7 +608,7 @@
             this.chkOpenRdpAdminAlt.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpAdminAlt.AutoSize = true;
             this.chkOpenRdpAdminAlt.Location = new System.Drawing.Point(207, 51);
-            this.chkOpenRdpAdminAlt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpAdminAlt.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpAdminAlt.Name = "chkOpenRdpAdminAlt";
             this.chkOpenRdpAdminAlt.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpAdminAlt.TabIndex = 11;
@@ -604,7 +619,7 @@
             this.chkOpenRdpAdminShift.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpAdminShift.AutoSize = true;
             this.chkOpenRdpAdminShift.Location = new System.Drawing.Point(240, 51);
-            this.chkOpenRdpAdminShift.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpAdminShift.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpAdminShift.Name = "chkOpenRdpAdminShift";
             this.chkOpenRdpAdminShift.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpAdminShift.TabIndex = 12;
@@ -615,7 +630,7 @@
             this.chkOpenRdpCtrl.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpCtrl.AutoSize = true;
             this.chkOpenRdpCtrl.Location = new System.Drawing.Point(174, 21);
-            this.chkOpenRdpCtrl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpCtrl.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpCtrl.Name = "chkOpenRdpCtrl";
             this.chkOpenRdpCtrl.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpCtrl.TabIndex = 5;
@@ -626,7 +641,7 @@
             this.chkOpenRdpAlt.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpAlt.AutoSize = true;
             this.chkOpenRdpAlt.Location = new System.Drawing.Point(207, 21);
-            this.chkOpenRdpAlt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpAlt.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpAlt.Name = "chkOpenRdpAlt";
             this.chkOpenRdpAlt.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpAlt.TabIndex = 6;
@@ -637,7 +652,7 @@
             this.chkOpenRdpShift.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkOpenRdpShift.AutoSize = true;
             this.chkOpenRdpShift.Location = new System.Drawing.Point(240, 21);
-            this.chkOpenRdpShift.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkOpenRdpShift.Margin = new System.Windows.Forms.Padding(2);
             this.chkOpenRdpShift.Name = "chkOpenRdpShift";
             this.chkOpenRdpShift.Size = new System.Drawing.Size(15, 14);
             this.chkOpenRdpShift.TabIndex = 7;
@@ -704,9 +719,9 @@
             this.grpCredentialOptions.Controls.Add(this.lblCredVaultTtl);
             this.grpCredentialOptions.Controls.Add(this.numCredVaultTtl);
             this.grpCredentialOptions.Location = new System.Drawing.Point(5, 5);
-            this.grpCredentialOptions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpCredentialOptions.Margin = new System.Windows.Forms.Padding(2);
             this.grpCredentialOptions.Name = "grpCredentialOptions";
-            this.grpCredentialOptions.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpCredentialOptions.Padding = new System.Windows.Forms.Padding(2);
             this.grpCredentialOptions.Size = new System.Drawing.Size(188, 65);
             this.grpCredentialOptions.TabIndex = 0;
             this.grpCredentialOptions.TabStop = false;
@@ -714,6 +729,7 @@
             // 
             // tabCredPicker
             // 
+            this.tabCredPicker.Controls.Add(this.chkCredSubfolders);
             this.tabCredPicker.Controls.Add(this.txtCredFolder);
             this.tabCredPicker.Controls.Add(this.cmdSetCredGroup);
             this.tabCredPicker.Controls.Add(this.cmdRegExPostReset);
@@ -734,13 +750,32 @@
             this.tabCredPicker.Controls.Add(this.numCredPickHeight);
             this.tabCredPicker.Controls.Add(this.numCredPickWidth);
             this.tabCredPicker.Controls.Add(this.txtCredPickWidth);
+            this.tabCredPicker.Controls.Add(this.txtCredUUID);
             this.tabCredPicker.Location = new System.Drawing.Point(4, 22);
             this.tabCredPicker.Name = "tabCredPicker";
-            this.tabCredPicker.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabCredPicker.Padding = new System.Windows.Forms.Padding(3);
             this.tabCredPicker.Size = new System.Drawing.Size(348, 251);
             this.tabCredPicker.TabIndex = 0;
             this.tabCredPicker.Text = "CredPicker options";
             this.tabCredPicker.UseVisualStyleBackColor = true;
+            // 
+            // txtCredFolder
+            // 
+            this.txtCredFolder.Location = new System.Drawing.Point(213, 71);
+            this.txtCredFolder.Name = "txtCredFolder";
+            this.txtCredFolder.ReadOnly = true;
+            this.txtCredFolder.Size = new System.Drawing.Size(120, 20);
+            this.txtCredFolder.TabIndex = 21;
+            // 
+            // cmdSetCredGroup
+            // 
+            this.cmdSetCredGroup.Location = new System.Drawing.Point(212, 46);
+            this.cmdSetCredGroup.Name = "cmdSetCredGroup";
+            this.cmdSetCredGroup.Size = new System.Drawing.Size(96, 23);
+            this.cmdSetCredGroup.TabIndex = 20;
+            this.cmdSetCredGroup.Text = "Set Cred Group";
+            this.cmdSetCredGroup.UseVisualStyleBackColor = true;
+            this.cmdSetCredGroup.Click += new System.EventHandler(this.cmdSetCredGroup_Click);
             // 
             // cmdRegExPostReset
             // 
@@ -876,28 +911,20 @@
             this.tabMstsc.Controls.Add(this.chkMstscUseMultimon);
             this.tabMstsc.Location = new System.Drawing.Point(4, 22);
             this.tabMstsc.Name = "tabMstsc";
-            this.tabMstsc.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabMstsc.Padding = new System.Windows.Forms.Padding(3);
             this.tabMstsc.Size = new System.Drawing.Size(348, 251);
             this.tabMstsc.TabIndex = 1;
             this.tabMstsc.Text = "Mstsc options";
             this.tabMstsc.UseVisualStyleBackColor = true;
             // 
-            // txtCredFolder
+            // txtCredUUID
             // 
-            this.txtCredFolder.Location = new System.Drawing.Point(213, 71);
-            this.txtCredFolder.Name = "txtCredFolder";
-            this.txtCredFolder.Size = new System.Drawing.Size(120, 20);
-            this.txtCredFolder.TabIndex = 21;
-            // 
-            // cmdSetCredGroup
-            // 
-            this.cmdSetCredGroup.Location = new System.Drawing.Point(212, 46);
-            this.cmdSetCredGroup.Name = "cmdSetCredGroup";
-            this.cmdSetCredGroup.Size = new System.Drawing.Size(96, 23);
-            this.cmdSetCredGroup.TabIndex = 20;
-            this.cmdSetCredGroup.Text = "Set Cred Group";
-            this.cmdSetCredGroup.UseVisualStyleBackColor = true;
-            this.cmdSetCredGroup.Click += new System.EventHandler(this.cmdSetCredGroup_Click);
+            this.txtCredUUID.Location = new System.Drawing.Point(213, 85);
+            this.txtCredUUID.Name = "txtCredUUID";
+            this.txtCredUUID.ReadOnly = true;
+            this.txtCredUUID.Size = new System.Drawing.Size(120, 20);
+            this.txtCredUUID.TabIndex = 23;
+            this.txtCredUUID.Visible = false;
             // 
             // KPROptionsForm
             // 
@@ -910,7 +937,7 @@
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "KPROptionsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "KeePassRDP Options";
@@ -1004,5 +1031,7 @@
         private System.Windows.Forms.GroupBox grpCredentialOptions;
         private System.Windows.Forms.TextBox txtCredFolder;
         private System.Windows.Forms.Button cmdSetCredGroup;
+        private System.Windows.Forms.CheckBox chkCredSubfolders;
+        private System.Windows.Forms.TextBox txtCredUUID;
     }
 }
