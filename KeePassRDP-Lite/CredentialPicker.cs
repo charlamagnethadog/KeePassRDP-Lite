@@ -62,7 +62,7 @@ namespace KeePassRDPLite
             {
                 byte[] uuidBytes = MemUtil.HexStringToByteArray(_config.CredPickerFolder);
                 //_GroupUUIDs.Add(new PwUuid(uuidBytes));
-                if (uuidBytes != null) { AddUuidToList(new PwUuid(uuidBytes), ref _GroupUUIDs); }
+                if (uuidBytes != null) { AddUuidToList(new PwUuid(uuidBytes), ref _GroupUUIDs); 
             }
             else
             {

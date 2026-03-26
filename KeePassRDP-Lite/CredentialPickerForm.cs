@@ -88,7 +88,7 @@ namespace KeePassRDPLite
             }
             // fill the ObjectListView-element with objects from the AccountEntry-list
             olvEntries.SetObjects(listAccounts);
-            // select the first entry in the ObjectListView automatically (so user can just press enter for a quick connection)
+                // select the first entry in the ObjectListView
             olvEntries.Items[0].Selected = true;
         }
 
