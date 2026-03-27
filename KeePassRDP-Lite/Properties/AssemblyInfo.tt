@@ -32,9 +32,9 @@ using System.Resources;
 [assembly: AssemblyTitle("KeePassRDP-Lite")]
 [assembly: AssemblyDescription("Extend KeePass with RDP connection options")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("B&S Networks")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("KeePass Plugin")]
-[assembly: AssemblyCopyright("Copyright ©2022-2025")]
+[assembly: AssemblyCopyright("Copyright © 2022-2026 charlamagnethadog")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -28,11 +28,12 @@ Remove-Item -Path $BuildOut\* -Recurse
 # copy only files required for building plgx
 $SourceIn = ".\KeePassRDP-Lite"
 $SourceOut = ".\KeePassRDP-Lite\bin\Release-PLGX\KeePassRDP-Lite"
+$SourceAbs = [System.IO.Path]::GetFullPath($SourceOut)
 New-Item -ItemType Directory -Force -Path $SourceOut > $null # destination folder must exist
 Copy-Item $SourceIn\* $SourceOut -Exclude @("bin","obj") -Recurse
 
 write-output "Building plgx..."
-Start-Process -NoNewWindow -FilePath .\build\exe\KeePass.exe -ArgumentList "--plgx-create", "$SourceOut" -Wait
+Start-Process -NoNewWindow -FilePath .\build\exe\KeePass.exe -ArgumentList "--plgx-create", "$SourceAbs" -Wait
 
 write-output "Building release zip (containing plgx)...."
 $zipIn = "$SourceOut.plgx"

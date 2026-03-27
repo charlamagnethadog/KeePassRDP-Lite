@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy RemoteSigned ./make-plgx-release.ps1
