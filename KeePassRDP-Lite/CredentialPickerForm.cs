@@ -91,7 +91,7 @@ namespace KeePassRDPLite
                 // ...and add as new AccountEntry to the list
                 AccountEntry accEntry = new AccountEntry(path, title, username, notes, uidhash);
                 listAccounts.Add(accEntry);
-                if (DefaultUser.Length > 0 && defaultItem == 0)
+                if (DefaultUser.Length > 0 && defaultItem == -1)
                 {
                     if (string.Compare(username, DefaultUser, true) == 0)
                         defaultItem = listAccounts.Count - 1;
@@ -124,7 +124,7 @@ namespace KeePassRDPLite
                     // ...and add as new AccountEntry to the list
                     AccountEntry accEntry = new AccountEntry(path, title, username, notes, uidhash);
                     listAccounts.Add(accEntry);
-                    if (DefaultUser.Length > 0 && defaultItem == 0)
+                    if (DefaultUser.Length > 0 && defaultItem == -1)
                     {
                         if (string.Compare(username, DefaultUser, true) == 0)
                             defaultItem = listAccounts.Count - 1;
@@ -211,6 +211,7 @@ namespace KeePassRDPLite
             cmdShowExcluded.Text = showExcluded ? "Hide Excluded" : "Show Excluded";
             LoadListEntries();
             olvEntries.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            olvEntries.Focus();
         }
     }
 }

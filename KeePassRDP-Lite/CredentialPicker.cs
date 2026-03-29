@@ -125,7 +125,13 @@ namespace KeePassRDPLite
                     {
                         foreach (var accountEntry in accountEntries)
                         {
+                            //check for default match on username field
                             if (string.Compare(accountEntry.Strings.ReadSafe(PwDefs.UserNameField), defaultUser, true) == 0)
+                            {
+                                return accountEntry;
+                            }
+                            //check for default match on title field
+                            if (string.Compare(accountEntry.Strings.ReadSafe(PwDefs.TitleField), defaultUser, true) == 0)
                             {
                                 return accountEntry;
                             }
